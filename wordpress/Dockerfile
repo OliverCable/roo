@@ -36,12 +36,12 @@ ENV WORDPRESS_VERSION 4.8.3
 ENV WORDPRESS_SHA1 8efc0b9f6146e143ed419b5419d7bb8400a696fc
 
 RUN set -ex; \
-        curl -o wordpress.zip -fSL "https://github.com/WordPress/WordPress/archive/${WORDPRESS_COMMIT_HASH}.zip";     \
+        curl -o wordpress.zip -fSL "https://github.com/WordPress/WordPress/archive/$HASH.zip"; \
         unzip wordpress.zip -d /usr/src/wordpress; \
         rm wordpress.zip; \
         chown -R www-data:www-data /usr/src/wordpress
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
