@@ -6,6 +6,12 @@ from subprocess import call
 
 @click.group()
 def cli():
+    """
+    Used to deploy a containerized wordpress app.\n
+    Example:\n
+      - To build: `roo-wp --name sherbertLemon --hash 5etr638u --port 24601`
+      - To destroy: `roo-wp --name sherbertLemon` 
+    """
     pass
 
 @cli.command()
@@ -14,36 +20,19 @@ def cli():
 @click.option('--port', '-p', default='8080', help='Provide a port to access sonarqube over.')
 
 def build(name, hash, port):
-    """
-    Used to deploy a containerized wordpress app.\n
-    Example:\n
-      - To build: `roo-wp --name sherbertLemon --hash 5etr638u --port 24601`
-      - To destroy: `roo-wp --name sherbertLemon` 
-    """
     # If user didn't provide a name, use the hash for tagging.
     if not name:
         name = hash
 
-    # Attempt to build Wordpress container.
-    build_image(name, hash)
-
     # Attempt to run Wordpress.
     run_image(name, port)
-
-def build_image(name, hash):
-    #Attempt image build, exit if non-zero return code.
-    try:
-        image_cmd = "docker build -t roo/wordpress:" + name + " wordpress/ --build-arg HASH=" + hash
-        call([image_cmd],shell=True)
-    except:
-        click.echo("Image build has failed: please check your inputs, " +
-                   "or manually try the build to debug: `" + str(image_cmd) + "`")
 
 def run_image(name, port):
     # Prepare docker-compose command for call module.
     build_cmd = ''
-    build_cmd += 'WORDPRESS_IMAGE=roo/wordpress:' + name + ' '
-    build_cmd += 'WORDPRESS_PORT=' + port + ' '
+    build_cmd += 'NAME=' + name + ' '
+    build_cmd += 'HASH=' + hash + ' '
+    build_cmd += 'PORT=' + port + ' '
     build_cmd += 'docker-compose '
     build_cmd += '--project-name ' + name + ' '
     build_cmd += 'up -d -force-recreate'

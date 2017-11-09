@@ -1,0 +1,1 @@
+NAME=master PORT=24601 HASH=19ec50f92aa06f85e9ea72c3c3162554b6bf8f7b docker-compose config

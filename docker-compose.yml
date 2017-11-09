@@ -1,18 +1,26 @@
-version: '2'
+version: '3'
 
 services:
   wordpress:
+    image: "roo/wordpress:$NAME"
     build: 
       context: ./wordpress
       args:
-        HASH: 5f52157d461af74dc8b2f2b3492d6806e8853a57
+        HASH: "$HASH"
         WORDPRESS_DB_PASSWORD: example
+    networks:
+      - "$NAME"
     restart: always
     ports: 
-      - 5001:80
+      - "$PORT:80"
 
   mysql:
     image: mysql:5.7
     restart: always
+    networks:
+      - "$NAME"
     environment:
       MYSQL_ROOT_PASSWORD: example
+
+networks:
+  "$NAME":
