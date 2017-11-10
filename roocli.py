@@ -14,12 +14,8 @@ def cli():
 @click.option('--port', '-p', default='8080', help='Provide a port to access sonarqube over.')
 
 def build(name, commit, port):
-    """
-    Used to deploy a containerized wordpress app.\n
-    Example:\n
-      - To build: `roo-wp --name sherbertLemon --hash 5etr638u --port 24601`
-      - To destroy: `roo-wp --name sherbertLemon` 
-    """
+    """ Used to deploy a containerized wordpress app. """
+
     # If user didn't provide a name, use the hash for tagging.
     if not name:
         name = commit
@@ -47,9 +43,11 @@ def run_image(name, commit, port):
 
 @cli.command()
 @click.option('--name', '-n', default='', help='Provide a human friendly, project name for your wordpress container, defaults to the commit SHA.')
-@click.option('--commit', '-c', default='master', help='Provide a Git commit Hash to pull a specific Wordpress version.')
+@click.option('--commit', '-c', default='', help='Provide a Git commit Hash to pull a specific Wordpress version.')
 
 def destroy(name, commit):
+    """ Used to destroy a containerized wordpress app."""
+
     # If user didn't provide a name, use the hash for tagging.
     if not name:
         name = commit

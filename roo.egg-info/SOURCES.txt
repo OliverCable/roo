@@ -1,7 +1,0 @@
-roocli.py
-roo.egg-info/PKG-INFO
-roo.egg-info/SOURCES.txt
-roo.egg-info/dependency_links.txt
-roo.egg-info/entry_points.txt
-roo.egg-info/requires.txt
-roo.egg-info/top_level.txt
