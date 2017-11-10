@@ -8,11 +8,24 @@ from subprocess import call
 def cli():
     pass
 
-@cli.command()
-@click.option('--name', '-n', default='', help='Provide a human friendly, project name for your wordpress container, defaults to the commit SHA.')
-@click.option('--commit', '-c', default='master', help='Provide a Git commit Hash to pull a specific Wordpress version.')
-@click.option('--port', '-p', default='8080', help='Provide a port to access sonarqube over.')
 
+@cli.command()
+@click.option(
+    '--name',
+    '-n',
+    default='',
+    help='Provide a human friendly,' +
+    ' project name for your wordpress container, defaults to the commit SHA.')
+@click.option(
+    '--commit',
+    '-c',
+    default='master',
+    help='Provide a Git commit Hash to pull a specific Wordpress version.')
+@click.option(
+    '--port',
+    '-p',
+    default='8080',
+    help='Provide a port to access sonarqube over.')
 def build(name, commit, port):
     """ Used to deploy a containerized wordpress app. """
 
@@ -20,10 +33,6 @@ def build(name, commit, port):
     if not name:
         name = commit
 
-    # Attempt to run Wordpress.
-    run_image(name, commit, port)
-
-def run_image(name, commit, port):
     # Prepare docker-compose command for call module.
     build_cmd = ''
     build_cmd += 'NAME=' + name + ' '
@@ -32,19 +41,30 @@ def run_image(name, commit, port):
     build_cmd += 'docker-compose '
     build_cmd += '--project-name ' + name + ' '
     build_cmd += 'up -d'
-    click.echo(build_cmd)
 
     # Execute build command.
     try:
-        call([build_cmd],shell=True)
-    except:
-        click.echo("Docker compose has failed: please check your inputs, " +
-                   "or manually try the build to debug: `" + str(build_cmd) + "`")
+        call([build_cmd], shell=True)
+    except BaseException:
+        click.echo(
+            "Docker compose has failed: please check your inputs, " +
+            "or manually try the build to debug: `" +
+            str(build_cmd) +
+            "`")
+
 
 @cli.command()
-@click.option('--name', '-n', default='', help='Provide a human friendly, project name for your wordpress container, defaults to the commit SHA.')
-@click.option('--commit', '-c', default='', help='Provide a Git commit Hash to pull a specific Wordpress version.')
-
+@click.option(
+    '--name',
+    '-n',
+    default='',
+    help='Provide a human friendly, ' +
+    'project name for your wordpress container, defaults to the commit SHA.')
+@click.option(
+    '--commit',
+    '-c',
+    default='',
+    help='Provide a Git commit Hash to pull a specific Wordpress version.')
 def destroy(name, commit):
     """ Used to destroy a containerized wordpress app."""
 
@@ -58,7 +78,10 @@ def destroy(name, commit):
 
     # Execute destroy command.
     try:
-        call([destroy_cmd],shell=True)
-    except:
-        click.echo("Docker compose has failed: please check your inputs, " +
-                   "or manually try the build to debug: `" + str(build_cmd) + "`")
+        call([destroy_cmd], shell=True)
+    except BaseException:
+        click.echo(
+            "Docker compose has failed: please check your inputs, " +
+            "or manually try the build to debug: `" +
+            str(build_cmd) +
+            "`")
