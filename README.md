@@ -20,6 +20,8 @@ In order to use roo, all you need to do is go to the [Wordpress GitHub site](htt
 
 Roo has two commands, `build` and `destroy`. You should use these to manage your containers to avoid docker mis-configurations. Please see the examples below.
 
+NB: You can run as many versions of Wordpress as you please providing you have enough compute power. Additionally, to actually access them you need to give them different names, and most importantly different port mappings on your machine. Hence the flags below.
+
 There are a few things at your control:
 
 * Commit - specified by either `--commit` or `-c`.
